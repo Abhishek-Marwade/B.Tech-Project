@@ -1,0 +1,490 @@
+/* ============================================================
+   RESEARCH COMPASS — Summary & Paper Selection Styles
+   Document-format summary cards + dual checkbox system
+   ============================================================ */
+
+/* ──────────────────────────────────────────────────────────
+   PAPER CARD CHECKBOXES (Summarize + Compare)
+   ────────────────────────────────────────────────────────── */
+
+.paper-checkboxes {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.check-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1rem 0.45rem 0.5rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border: 2px solid transparent;
+    transition: all 0.25s ease;
+    user-select: none;
+    position: relative;
+}
+
+.check-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.check-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 0.78rem;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+}
+
+/* Summarize label — indigo */
+.summary-check-label {
+    background: rgba(99, 102, 241, 0.07);
+    border-color: rgba(99, 102, 241, 0.25);
+    color: #6366f1;
+}
+.summary-check-label .check-icon {
+    background: rgba(99, 102, 241, 0.15);
+    color: #6366f1;
+}
+.summary-check-label:hover {
+    background: rgba(99, 102, 241, 0.13);
+    border-color: rgba(99, 102, 241, 0.5);
+}
+.summary-check-label:has(input:checked) {
+    background: #6366f1;
+    border-color: #6366f1;
+    color: white;
+}
+.summary-check-label:has(input:checked) .check-icon {
+    background: rgba(255,255,255,0.25);
+    color: white;
+}
+
+/* Compare label — emerald */
+.compare-check-label {
+    background: rgba(16, 185, 129, 0.07);
+    border-color: rgba(16, 185, 129, 0.25);
+    color: #10b981;
+}
+.compare-check-label .check-icon {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+}
+.compare-check-label:hover {
+    background: rgba(16, 185, 129, 0.13);
+    border-color: rgba(16, 185, 129, 0.5);
+}
+.compare-check-label:has(input:checked) {
+    background: #10b981;
+    border-color: #10b981;
+    color: white;
+}
+.compare-check-label:has(input:checked) .check-icon {
+    background: rgba(255,255,255,0.25);
+    color: white;
+}
+
+/* ──────────────────────────────────────────────────────────
+   ACTION BUTTONS ROW (below paper grid)
+   ────────────────────────────────────────────────────────── */
+
+.action-buttons-row {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.75rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.action-btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.action-hint {
+    font-size: 0.82rem;
+    color: var(--text-muted, #94a3b8);
+    padding-left: 0.25rem;
+}
+
+/* Summarize Selected Button */
+.btn-summarize-selected {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    border: none;
+    padding: 0.85rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.btn-summarize-selected:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.45);
+}
+
+.btn-summarize-selected:disabled {
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Compare Button */
+.btn-compare {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 0.85rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.btn-compare:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.45);
+}
+
+.btn-compare:disabled {
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   DOCUMENT-STYLE SUMMARY CARD
+   ══════════════════════════════════════════════════════════ */
+
+.summary-doc-card {
+    background: #ffffff;
+    border: 1px solid rgba(99, 102, 241, 0.12);
+    border-top: 4px solid #6366f1;
+    border-radius: 1rem;
+    margin: 1.75rem 0;
+    overflow: hidden;
+    box-shadow: 0 4px 24px -4px rgba(99, 102, 241, 0.12), 0 1px 3px rgba(0,0,0,0.06);
+    transition: box-shadow 0.3s ease;
+}
+.summary-doc-card:hover {
+    box-shadow: 0 12px 40px -8px rgba(99, 102, 241, 0.2), 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Dark mode override */
+.dark-mode .summary-doc-card {
+    background: #1e293b;
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.summary-doc-header {
+    padding: 2rem 2.5rem 1.5rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.04) 0%, rgba(139, 92, 246, 0.03) 100%);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.summary-paper-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.28rem 0.9rem;
+    border-radius: 2rem;
+    margin-bottom: 0.9rem;
+}
+
+.summary-doc-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #1e293b;
+    margin: 0;
+}
+.dark-mode .summary-doc-title { color: #f1f5f9; }
+
+/* ── Metadata Block ─────────────────────────────────────── */
+.summary-meta-block {
+    padding: 1.5rem 2.5rem;
+    background: #f8fafc;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.08);
+}
+.dark-mode .summary-meta-block { background: #0f172a; }
+
+.summary-meta-heading {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.summary-meta-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.summary-meta-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: 0.93rem;
+    line-height: 1.5;
+}
+
+.meta-label {
+    min-width: 150px;
+    font-weight: 600;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+.meta-label i {
+    width: 14px;
+    text-align: center;
+    color: #6366f1;
+    opacity: 0.7;
+}
+
+.meta-value {
+    color: #1e293b;
+    flex: 1;
+    word-break: break-word;
+}
+.dark-mode .meta-value { color: #cbd5e1; }
+
+.meta-not-provided {
+    font-style: italic;
+    color: #94a3b8;
+    font-size: 0.88rem;
+}
+
+.meta-link {
+    color: #6366f1;
+    text-decoration: none;
+    word-break: break-all;
+}
+.meta-link:hover { text-decoration: underline; }
+
+/* ── Overview ───────────────────────────────────────────── */
+.summary-doc-overview {
+    padding: 1.75rem 2.5rem;
+    background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(139,92,246,0.03));
+    border-bottom: 1px solid rgba(99, 102, 241, 0.08);
+    position: relative;
+}
+
+.overview-icon {
+    position: absolute;
+    top: 1.6rem;
+    left: 2.5rem;
+    color: #6366f1;
+    opacity: 0.25;
+    font-size: 1.5rem;
+}
+
+.summary-doc-overview p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #475569;
+    margin: 0;
+    padding-left: 2.25rem;
+    font-style: italic;
+}
+.dark-mode .summary-doc-overview p { color: #94a3b8; }
+
+/* ── Content Sections ───────────────────────────────────── */
+.summary-doc-sections {
+    padding: 0 2.5rem 1rem;
+}
+
+.summary-doc-section {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.07);
+}
+.summary-doc-section:last-child {
+    border-bottom: none;
+}
+
+.summary-section-title {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #6366f1;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.summary-section-title i {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.summary-section-body {
+    font-size: 1.02rem;
+    line-height: 1.85;
+    color: #334155;
+    white-space: pre-wrap;
+}
+.dark-mode .summary-section-body { color: #cbd5e1; }
+
+/* ── Key Takeaways ──────────────────────────────────────── */
+.summary-doc-takeaways {
+    margin: 0.5rem 2.5rem 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.07), rgba(139, 92, 246, 0.04));
+    border-radius: 0.875rem;
+    border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.takeaways-heading {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6366f1;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.takeaways-heading i {
+    color: #f59e0b;
+}
+
+.takeaways-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.takeaways-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.97rem;
+    line-height: 1.65;
+    color: #334155;
+    background: white;
+    padding: 0.85rem 1.1rem;
+    border-radius: 0.65rem;
+    box-shadow: 0 1px 4px rgba(99,102,241,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.dark-mode .takeaways-list li {
+    background: #1e293b;
+    color: #cbd5e1;
+}
+
+.takeaways-list li:hover {
+    transform: translateX(6px);
+    box-shadow: 0 3px 10px rgba(99,102,241,0.14);
+}
+
+.takeaway-bullet {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   COMPARISON TABLE STYLES
+   ══════════════════════════════════════════════════════════ */
+
+.comparison-container {
+    margin: 2rem 0;
+    background: white;
+    border: 2px solid var(--border);
+    padding: 2rem;
+    border-radius: 0.75rem;
+}
+.dark-mode .comparison-container { background: #1e293b; }
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+}
+
+.comparison-table th {
+    background: var(--primary);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.comparison-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+
+.comparison-table tbody tr:hover {
+    background: #f8fafc;
+}
+.dark-mode .comparison-table tbody tr:hover { background: #0f172a; }
+
+.winner-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--success, #10b981);
+    color: white;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}

@@ -1,0 +1,51 @@
+# Environment variables (API keys, secrets - NEVER push these)
+.env
+*.env
+.env.*
+
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+
+# Database files (local data, not needed in repo)
+*.db
+*.sqlite
+*.sqlite3
+
+# Vector/model data files
+*.npy
+*.pkl
+*.pickle
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/

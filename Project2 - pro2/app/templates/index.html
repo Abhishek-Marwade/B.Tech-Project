@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Compass | AI Research Agent</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/summary-enhancements.css">
+    <link rel="stylesheet" href="/static/interactions.css">
+</head>
+
+<body>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div id="shortcuts-modal" class="shortcuts-modal">
+        <div class="shortcuts-content">
+            <h2><i class="fa-solid fa-keyboard"></i> Keyboard Shortcuts</h2>
+            <div class="shortcut-item">
+                <span class="shortcut-desc">Send message</span>
+                <div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">Enter</span></div>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-desc">New research</span>
+                <div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">N</span></div>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-desc">Toggle dark mode</span>
+                <div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">D</span></div>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-desc">Focus search</span>
+                <div class="shortcut-keys"><span class="key">/</span></div>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-desc">Show shortcuts</span>
+                <div class="shortcut-keys"><span class="key">?</span></div>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-desc">Close modal</span>
+                <div class="shortcut-keys"><span class="key">Esc</span></div>
+            </div>
+            <button class="shortcuts-close" onclick="toggleShortcutsModal()">Got it!</button>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <i class="fa-solid fa-atom brand-icon"></i>
+                    <span class="brand-text">ResearchCompass</span>
+                </div>
+                <button id="btn-toggle-sidebar" class="btn-toggle-sidebar" onclick="toggleSidebar()"
+                    title="Toggle Sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <button id="btn-new-chat" class="btn-new-chat ripple-container">
+                <i class="fa-solid fa-plus"></i> <span class="sidebar-text">New Research</span>
+            </button>
+
+            <nav class="nav-menu">
+                <div class="nav-section">
+                    <div class="nav-label">Today</div>
+                    <div id="chat-history-today" class="chat-history-list">
+                        <!-- Today's chats will be dynamically added here -->
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-label">Previous 7 Days</div>
+                    <div id="chat-history-previous" class="chat-history-list">
+                        <!-- Previous chats will be dynamically added here -->
+                    </div>
+                </div>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar"><i class="fa-solid fa-user-astronaut"></i></div>
+                <div class="user-info">
+                    <span class="name">Researcher</span>
+                    <span class="status">Pro Plan</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="breadcrumbs">
+                    <span class="status-indicator"></span> <span id="agent-status">Agent is Ready</span>
+                </div>
+                <div class="top-bar-actions">
+                    <!-- <button id="btn-shortcuts" class="btn-icon" title="Keyboard Shortcuts"
+                        onclick="toggleShortcutsModal()">
+                        <i class="fa-solid fa-keyboard"></i>
+                    </button> -->
+                    <button id="dark-mode-toggle" class="dark-mode-toggle" title="Toggle Dark Mode">
+                        <i class="fa-solid fa-sun"></i>
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div id="chat-stream" class="chat-stream">
+                <!-- Messages will appear here -->
+            </div>
+
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <input type="text" id="user-input"
+                        placeholder="Enter a topic to start research (e.g. 'Generative Adversarial Networks')..."
+                        autocomplete="off">
+                    <button id="btn-send" class="btn-send ripple-container"><i
+                            class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Action Button -->
+    <!-- <div id="fab-container" class="fab-container">
+        <div class="fab-menu">
+            <div class="fab-item">
+                <button onclick="scrollToTop()" title="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
+                <span class="fab-tooltip">Scroll to top</span>
+            </div>
+            <div class="fab-item">
+                <button onclick="toggleShortcutsModal()" title="Keyboard shortcuts"><i
+                        class="fa-solid fa-keyboard"></i></button>
+                <span class="fab-tooltip">Shortcuts</span>
+            </div>
+            <div class="fab-item">
+                <button onclick="toggleDarkMode()" title="Toggle theme"><i class="fa-solid fa-palette"></i></button>
+                <span class="fab-tooltip">Theme</span>
+            </div>
+        </div>
+        <button class="fab" onclick="toggleFab()" title="Quick actions">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+    </div> -->
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
